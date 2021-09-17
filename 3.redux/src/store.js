@@ -1,5 +1,6 @@
 import { createStore, applyMiddleware } from "redux";
 import reducer from "./reducers/index.js";
+import { composeWithDevTools } from "redux-devtools-extension";
 
 const initialState = {
   user: {
@@ -21,7 +22,10 @@ const thunkMiddleware = (store) => (next) => (action) => {
   return next(action);
 };
 
-const enhancer = applyMiddleware(firstMiddleware, thunkMiddleware);
+//실제 사용시 env 활용해서 mode에 따라 사용여부 선택
+const enhancer = composeWithDevTools(
+  applyMiddleware(firstMiddleware, thunkMiddleware)
+);
 
 const store = createStore(reducer, initialState, enhancer);
 
