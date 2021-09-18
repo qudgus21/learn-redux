@@ -1,10 +1,10 @@
 import { combineReducers } from "redux";
-import userReducer from "./user.js";
-import postReducer from "./post.js";
+import userSlice from "./user.js";
+import postSlice from "./post.js";
 
 const reducer = combineReducers({
-  user: userReducer,
-  posts: postReducer,
+  user: userSlice.reducer,
+  posts: postSlice.reducer,
 });
 
 export default reducer;

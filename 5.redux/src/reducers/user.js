@@ -1,51 +1,32 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { logIn } from "../actions/user";
 
 const initialState = {
   isLoggingIn: false,
   data: null,
 };
 
-const userReducer = (prevState = initialState, action) => {
-  switch (action.type) {
-    case "LOG_IN_REQUEST":
-      return {
-        ...prevState,
-        isLoggingIn: true,
-      };
-    case "LOG_IN_SUCCESS":
-      return {
-        ...prevState,
-        isLoggingIn: false,
-        data: action.data,
-      };
-    case "LOG_OUT":
-      return {
-        ...prevState,
-        isLoggingIn: false,
-        data: null,
-      };
-    case "LOG_IN_Fail":
-      return {
-        ...prevState,
-        isLoggingIn: false,
-        data: null,
-      };
-    default:
-      return prevState;
-  }
-};
-
 const userSlice = createSlice({
   name: "user",
   initialState,
-  //동기
   reducers: {
     logOut(state, action) {
       state.data = null;
     },
   },
-  //비동기
-  extraReducers: {},
+  extraReducers: (builder) =>
+    builder
+      .addCase(logIn.pending, (state, action) => {
+        state.data = null;
+        state.isLoggingIn = true;
+      })
+      .addCase(logIn.fulfilled, (state, action) => {
+        state.data = action.payload;
+        state.isLoggingIn = false;
+      })
+      .addCase(logIn.rejected, (state, action) => {
+        state.error = action.payload;
+      }),
 });
 
 export default userSlice;

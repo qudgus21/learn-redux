@@ -1,14 +1,22 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { addPost } from "../actions/post";
 
-const initialState = [];
-
-const postReducer = (prevState = initialState, action) => {
-  switch (action.type) {
-    case "ADD_POST":
-      return [...prevState, action.data];
-    default:
-      return prevState;
-  }
+const initialState = {
+  list: [],
 };
 
-export default postReducer;
+const postSlice = createSlice({
+  name: "post",
+  initialState,
+  reducers: {},
+  extraReducers: (builder) =>
+    builder
+      .addCase(addPost.pending, (state, action) => {})
+      .addCase(addPost.fulfilled, (state, action) => {
+        state.list.push(action.payload);
+      })
+      .addCase(addPost.rejected, (state, action) => {}),
+  //addMatcher=> 공통부분 처리
+});
+
+export default postSlice;
