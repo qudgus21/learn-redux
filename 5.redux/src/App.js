@@ -2,13 +2,17 @@ import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logIn } from "./actions/user";
 import { addPost } from "./actions/post";
-
+import { createSelector } from "@reduxjs/toolkit";
 import userSlice from "./reducers/user";
+
+//createSelector
 
 const App = () => {
   const user = useSelector((state) => state.user);
-  const dispatch = useDispatch();
 
+  // const { email, password } = useSelector((state) => state.user);
+
+  const dispatch = useDispatch();
   const onClick = useCallback(() => {
     dispatch(
       logIn({
@@ -17,6 +21,14 @@ const App = () => {
       })
     );
   }, []);
+
+  const thisComponentOnly = useCallback(async () => {
+    //여기서만 쓰이면 여기서
+    //setloadgin
+    //setdone
+    //seterror
+    //만들고 axios, state로 관리 => 무조건 redux로 빼지 않는다.
+  });
 
   const onLogout = useCallback(() => {
     dispatch(userSlice.actions.logOut());
